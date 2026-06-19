@@ -256,6 +256,30 @@ h1.page__heading,
 }
 
 </style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-PK51NKXWM5"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-PK51NKXWM5');
+</script>
+<!-- End Google tag -->
+
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1530478831754355');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -764,6 +788,42 @@ window.addEventListener('scroll', function() {
     shown = true;
   }
 }, {passive: true});
+</script>
+
+<!-- Tracking param propagation + ViewContent on CTA click -->
+<script>
+(function() {
+  // Captura fbclid e utm_* da URL atual do advertorial
+  var currentParams = new URLSearchParams(window.location.search);
+  var paramsToForward = new URLSearchParams();
+  ['fbclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function(key) {
+    if (currentParams.has(key)) {
+      paramsToForward.set(key, currentParams.get(key));
+    }
+  });
+  var forwardString = paramsToForward.toString();
+
+  // Pega todos os links que apontam pra LP do Shopify
+  var ctaLinks = document.querySelectorAll('a[href*="shopvelloura.com"]');
+
+  ctaLinks.forEach(function(link) {
+    // Anexa os params capturados na URL de destino, preservando o que já existir
+    if (forwardString) {
+      var separator = link.href.indexOf('?') > -1 ? '&' : '?';
+      link.href = link.href + separator + forwardString;
+    }
+
+    // Dispara ViewContent no clique, antes de navegar
+    link.addEventListener('click', function() {
+      if (typeof fbq === 'function') {
+        fbq('track', 'ViewContent', {
+          content_name: 'SenseRoll Electric 360 Body Massager',
+          content_category: 'Velloura Sense'
+        });
+      }
+    });
+  });
+})();
 </script>
 </body>
 </html>
